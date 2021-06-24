@@ -1,16 +1,15 @@
 import Rijnmond_overzicht, Rijnland_overzicht, Woonbron_overzicht, Haaglanden_overzicht
 import logging
-import os
-import sys, time
+import sys
 import traceback
 import datetime, pytz
-from random import *
 
-from telegram import ChatAction, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, CallbackContext
-# from telegram.error import TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
+
+from telegram import ParseMode
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from telegram.utils.helpers import mention_html
 
+# plaats hier je eigen gegevens tussen de haakjes
 TELEGRAM_TOKEN = ''
 TELEGRAM_DEV_ID = ''
 
@@ -66,10 +65,10 @@ def rijnmond_update_bericht(context: CallbackContext):
     Rijnmond_overzicht.rijnmond_aanbod()
     current_time = datetime.datetime.now()
     if current_time.hour >= 18 and current_time.hour < 20:
-        context.bot.send_message(chat_id='150602383', text=Rijnmond_overzicht.aanbod_message(), parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=TELEGRAM_DEV_ID, text=Rijnmond_overzicht.aanbod_message(), parse_mode=ParseMode.HTML)
     else:
         message = 'Helaas, deze functie werkt alleen automatisch en tussen 18:00 en 20:00'
-        context.bot.send_message(chat_id='150602383',
+        context.bot.send_message(chat_id=TELEGRAM_DEV_ID,
                                  text=message,
                                  parse_mode=ParseMode.HTML)
 def updater_aanbod():
@@ -117,7 +116,6 @@ rijnmond_aanbod_handler = CommandHandler('rijnmond', rijnmond_aanbod_bericht)
 woonbron_aanbod_handler = CommandHandler('woonbron', woonbron_aanbod_bericht)
 woonbron_oud_aanbod_handler = CommandHandler('woonbron_oud', woonbron_oud_aanbod_bericht)
 haaglanden_aanbod_handler = CommandHandler('haaglanden', haaglanden_aanbod_bericht)
-#rijnmond_update_handler = CommandHandler('rijnmond_update', rijnmond_update_bericht)
 
 dispatcher.add_error_handler(error_callback)
 dispatcher.add_handler(start_handler)
@@ -125,7 +123,6 @@ dispatcher.add_handler(rijnmond_aanbod_handler)
 dispatcher.add_handler(rijnland_aanbod_handler)
 dispatcher.add_handler(woonbron_aanbod_handler)
 dispatcher.add_handler(woonbron_oud_aanbod_handler)
-#dispatcher.add_handler(rijnmond_update_handler)
 dispatcher.add_handler(haaglanden_aanbod_handler)
 # The unknown_handler must be added last.
 dispatcher.add_handler(unknown_handler)

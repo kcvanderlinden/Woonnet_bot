@@ -22,7 +22,6 @@ def rijnland_aanbod():
 
     chromedriver_location = os.path.join(os.path.dirname(__file__), 'chromedriver')
     driver = webdriver.Chrome(options=options, executable_path=chromedriver_location)
-    #driver = webdriver.Chrome(options=options, executable_path='/Woonnet/chromedriver')
     driver.get('https://www.hureninhollandrijnland.nl/aanbod/te-huur#?gesorteerd-op=publicatiedatum-')
     timeout = 4
     try:
@@ -74,7 +73,6 @@ def rijnland_aanbod():
                     True) + 1]
             raw_omschrijving = 'span class="icon-icon_woonoppervlakte object-label-icon"'
             omschrijving = string[string.index(raw_omschrijving) + 5] if raw_omschrijving in string else ''
-            entry = [adres, omschrijving, plaats, prijs, type_verhuur, page_url]
 
             entry = [adres, omschrijving, plaats, prijs, type_verhuur, page_url]
 
